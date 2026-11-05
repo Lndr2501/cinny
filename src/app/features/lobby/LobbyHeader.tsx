@@ -38,6 +38,7 @@ import { useOpenSpaceSettings } from '../../state/hooks/spaceSettings';
 import { useRoomCreators } from '../../hooks/useRoomCreators';
 import { useRoomPermissions } from '../../hooks/useRoomPermissions';
 import { InviteUserPrompt } from '../../components/invite-user-prompt';
+import { SpaceJoinMenuItems } from '../../components/space-join/SpaceJoinMenuItems';
 
 type LobbyMenuProps = {
   powerLevels: IPowerLevels;
@@ -65,7 +66,7 @@ const LobbyMenu = forwardRef<HTMLDivElement, LobbyMenuProps>(
     };
 
     return (
-      <Menu ref={ref} style={{ maxWidth: toRem(160), width: '100vw' }}>
+      <Menu ref={ref} style={{ maxWidth: toRem(200), width: '100vw' }}>
         {invitePrompt && (
           <InviteUserPrompt
             room={space}
@@ -100,6 +101,7 @@ const LobbyMenu = forwardRef<HTMLDivElement, LobbyMenuProps>(
               Space Settings
             </Text>
           </MenuItem>
+          <SpaceJoinMenuItems space={space} />
         </Box>
         <Line variant="Surface" size="300" />
         <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>

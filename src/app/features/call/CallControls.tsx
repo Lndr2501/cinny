@@ -21,11 +21,12 @@ import {
   ChatButton,
   ControlDivider,
   MicrophoneButton,
+  ScreenShareAudioButton,
   ScreenShareButton,
   SoundButton,
   VideoButton,
 } from './Controls';
-import { CallEmbed, useCallControlState } from '../../plugins/call';
+import { CallEmbed, useCallControlState, useScreenShareAudio } from '../../plugins/call';
 import { useResizeObserver } from '../../hooks/useResizeObserver';
 import { stopPropagation } from '../../utils/keyboard';
 import { AsyncStatus, useAsyncCallback } from '../../hooks/useAsyncCallback';
@@ -49,6 +50,8 @@ export function CallControls({ callEmbed }: CallControlsProps) {
   const { microphone, video, sound, screenshare, spotlight } = useCallControlState(
     callEmbed.control
   );
+
+  const streamAudio = useScreenShareAudio();
 
   const [cords, setCords] = useState<RectCords>();
 
@@ -110,6 +113,9 @@ export function CallControls({ callEmbed }: CallControlsProps) {
               enabled={screenshare}
               onToggle={() => callEmbed.control.toggleScreenshare()}
             />
+            {screenshare && streamAudio.available && streamAudio.active && (
+              <ScreenShareAudioButton enabled={streamAudio.enabled} onToggle={streamAudio.toggle} />
+            )}
           </Box>
         </Box>
         {!compact && <ControlDivider />}

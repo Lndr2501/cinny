@@ -20,6 +20,9 @@ export class CallControl extends EventEmitter implements CallControlState {
 
   private mediaStatePromiseResolver: undefined | (() => void);
 
+  // Whether the microphone was live when the user deafened, so un-deafening can restore it.
+  private micWasOnBeforeDeafen = false;
+
   private get document(): Document | undefined {
     return this.iframe.contentDocument ?? this.iframe.contentWindow?.document;
   }
@@ -253,7 +256,19 @@ export class CallControl extends EventEmitter implements CallControlState {
     this.state = state;
     this.emitStateUpdate();
 
-    if (!this.sound && this.microphone) {
+    if (!sound) {
+      // Deafen: remember mic state, then mute it too.
+      this.micWasOnBeforeDeafen = this.microphone;
+      if (this.microphone) {
+        this.toggleMicrophone();
+      }
+      return;
+    }
+
+    // Un-deafen: bring the microphone back if it was live before.
+    const restoreMic = this.micWasOnBeforeDeafen && !this.microphone;
+    this.micWasOnBeforeDeafen = false;
+    if (restoreMic) {
       this.toggleMicrophone();
     }
   }

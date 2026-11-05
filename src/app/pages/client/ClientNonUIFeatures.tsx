@@ -26,6 +26,7 @@ import { getMxIdLocalPart, mxcUrlToHttp } from '../../utils/matrix';
 import { useSelectedRoom } from '../../hooks/router/useSelectedRoom';
 import { useInboxNotificationsSelected } from '../../hooks/router/useInbox';
 import { useMediaAuthentication } from '../../hooks/useMediaAuthentication';
+import { useSpaceAutoJoinWorker } from '../../hooks/useSpaceAutoJoin';
 
 function SystemEmojiFeature() {
   const [twitterEmoji] = useSetting(settingsAtom, 'twitterEmoji');
@@ -253,6 +254,11 @@ function MessageNotifications() {
   );
 }
 
+function SpaceAutoJoinFeature() {
+  useSpaceAutoJoinWorker();
+  return null;
+}
+
 type ClientNonUIFeaturesProps = {
   children: ReactNode;
 };
@@ -265,6 +271,7 @@ export function ClientNonUIFeatures({ children }: ClientNonUIFeaturesProps) {
       <FaviconUpdater />
       <InviteNotifications />
       <MessageNotifications />
+      <SpaceAutoJoinFeature />
       {children}
     </>
   );

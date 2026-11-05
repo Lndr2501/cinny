@@ -155,6 +155,42 @@ export function ScreenShareButton({ enabled, onToggle }: ScreenShareButtonProps)
   );
 }
 
+type ScreenShareAudioButtonProps = {
+  enabled: boolean;
+  onToggle: () => void;
+};
+export function ScreenShareAudioButton({ enabled, onToggle }: ScreenShareAudioButtonProps) {
+  return (
+    <TooltipProvider
+      position="Top"
+      delay={500}
+      tooltip={
+        <Tooltip>
+          <Text size="T200">{enabled ? 'Mute Stream Sound' : 'Share Stream Sound'}</Text>
+        </Tooltip>
+      }
+    >
+      {(anchorRef) => (
+        <IconButton
+          ref={anchorRef}
+          variant={enabled ? 'Success' : 'Warning'}
+          fill="Soft"
+          radii="400"
+          size="400"
+          onClick={() => onToggle()}
+          outlined
+        >
+          <Icon
+            size="400"
+            src={enabled ? Icons.VolumeHigh : Icons.VolumeMute}
+            filled={!enabled}
+          />
+        </IconButton>
+      )}
+    </TooltipProvider>
+  );
+}
+
 export function ChatButton() {
   const [chat, setChat] = useAtom(callChatAtom);
 

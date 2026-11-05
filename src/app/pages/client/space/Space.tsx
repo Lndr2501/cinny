@@ -85,6 +85,7 @@ import { AsyncStatus, useAsyncCallback } from '../../../hooks/useAsyncCallback';
 import { BreakWord } from '../../../styles/Text.css';
 import { InviteUserPrompt } from '../../../components/invite-user-prompt';
 import { useCallEmbed } from '../../../hooks/useCallEmbed';
+import { SpaceJoinMenuItems } from '../../../components/space-join/SpaceJoinMenuItems';
 
 type SpaceMenuProps = {
   room: Room;
@@ -139,7 +140,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
   };
 
   return (
-    <Menu ref={ref} style={{ maxWidth: toRem(160), width: '100vw' }}>
+    <Menu ref={ref} style={{ maxWidth: toRem(200), width: '100vw' }}>
       <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
         {invitePrompt && room && (
           <InviteUserPrompt
@@ -161,6 +162,7 @@ const SpaceMenu = forwardRef<HTMLDivElement, SpaceMenuProps>(({ room, requestClo
             Mark as Read
           </Text>
         </MenuItem>
+        <SpaceJoinMenuItems space={room} />
       </Box>
       <Line variant="Surface" size="300" />
       <Box direction="Column" gap="100" style={{ padding: config.space.S100 }}>
